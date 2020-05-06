@@ -16,6 +16,7 @@ namespace RickRoller_2.Tests
         // PLEASE SELECT PATH TO YOUR FACEBOOK LOGIN AND PASSWORD, IT MUST BE .txt FILE WHERE FIRST LINE IS YOUR LOGIN AND SECOND IS PASSWORD!
         // THIS IS TO AVOID SHARING YOUR CREDENTIALS ON GITHUB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         private string path = "C:/cred.txt";
+        private string sampleText = "C:/sampeText.txt";
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         // Używaj tej funkcji do pobrania twojego loginu i hasła        
@@ -35,7 +36,9 @@ namespace RickRoller_2.Tests
                 }
             }
             return list[n];
-        }                                                                                                                                                                                          
+
+            
+        }
 
         //Sprawdzić czy logowanie poprawnego użytkownika nie zwraca wyjątku
         [Test]
@@ -59,14 +62,70 @@ namespace RickRoller_2.Tests
         }
 
         //Sprawdzić czy metoda GetFriendsList zwraca wyjątek bez ?logownia?
+        [Test]
+        public void DoesGetFriendsListThrowsExceptionWithoutLogging()
+        {
+            Backend rickRoller = new Backend();
+            var ex = Assert.Throws<OpenQA.Selenium.NoSuchElementException>(() => rickRoller.getFriendsList());
+            Assert.That(ex.GetType().Name, Is.EqualTo("NoSuchElementException"));
 
+        }
+        //Sprawdzić czy metoda GetFriendsList zwraca cokolwiek
+        [Test]
+        public void DoesGetFriendsListReturnsNotEmpty()
+        {
+            Backend rickRoller = new Backend();
+            rickRoller.login(getCredentials(0), getCredentials(1));
+            var table = rickRoller.getFriendsList();
+            Assert.NotNull(table);
+            rickRoller.killBrowser();
+        }
         //Sprawdzić czy metoda GetFriendsList zwraca tablicę stringów
-
+        [Test]
+        public void DoesGetFriendsListReturnsStringTable()
+        {
+            Backend rickRoller = new Backend();
+            rickRoller.login(getCredentials(0), getCredentials(1));
+            var table = rickRoller.getFriendsList();
+            Assert.AreEqual(table.GetType().ToString(), "System.String[]");
+            rickRoller.killBrowser();
+        }
         //Sprawdzić czy metoda RickRoll zwraca wyjątek bez ?logowania?
+        [Test]
+        public void DoesRickRollFriendThrowsExceptionWithoutLogging()
+        {
+            Backend rickRoller = new Backend();
+            var ex = Assert.Throws<OpenQA.Selenium.NoSuchElementException>(() => rickRoller.rickRoll("Ham Burger",sampleText));
+            Assert.That(ex.GetType().Name, Is.EqualTo("NoSuchElementException"));
+            rickRoller.killBrowser();
+
+        }
 
         //Sprawdzić czy metoda Rickroll nie zwraca wyjątku przy poprawnym logowaniu
 
+        [Test]
+        public void DoesRickRollThrowsNoExceptionWhenValid()
+        {
+            // Arrange
+            Backend rickRoller = new Backend();
+            //Assert
+            rickRoller.login(getCredentials(0), getCredentials(1));
+            //Należy wstawić imie i nazwisko prawdziwego znajomego!
+            Assert.DoesNotThrow(() => rickRoller.rickRoll("Michał Koczewski", sampleText));
+            rickRoller.killBrowser();
+        }
+
         //Sprawdzić czy metoda Rickrol zwraca wyjątek przy podaniu "złego" znajomego
+        [Test]
+        public void DoesRickRollThrowsExceptionWhenInvalid()
+        {
+            // Arrange
+            Backend rickRoller = new Backend();
+            rickRoller.login(getCredentials(0), getCredentials(1));
+            var ex = Assert.Throws<OpenQA.Selenium.NoSuchElementException>(() => rickRoller.rickRoll("Ham Burger", sampleText));
+            Assert.That(ex.GetType().Name, Is.EqualTo("NoSuchElementException"));
+            rickRoller.killBrowser();
+        }
 
         //Sprawdzić czy metoda Rickroll nie zwraca wyjątku przy podaniu "dobrego" znajomego
 
@@ -77,6 +136,10 @@ namespace RickRoller_2.Tests
         //Sprawdzić czy metoda sonngReader zwraca wyjątek gdy plik nie jest plikiem ".txt"  <--można testcase
 
         //Sprawdzić przy użyciu selenium czy logując się testowo i przez metodę zwracana jest ta sama strona
+
+        //sprawdzić czy metoda killbrowser zwraca wyjątek bez logowania;
+
+        //sprawdzić czy metoda killbrowser nie zwraca błędu przy logowaniu;
 
         //Michu wymyśl coś na mock'a bo ja tego nie ogarniam xd
 
