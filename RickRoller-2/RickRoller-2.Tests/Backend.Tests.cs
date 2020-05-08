@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -137,31 +138,53 @@ namespace RickRoller_2.Tests
             Assert.DoesNotThrow(() => rickRoller.rickRoll("Mateusz Kusiak", sampleText));
             rickRoller.killBrowser();
         }
-        //Sprawdzić czy metoda songReader zwraca poprawną ArrayListę <--można testcase
-        //Sprawdzić czy metoda SongReader zwraca wyjątek przy niepoprawnej ścieżce do pliku <--można testcase
-        //Sprawdzić czy metoda sonngReader zwraca wyjątek gdy plik nie jest plikiem ".txt"  <--można testcase
-        [TestCase("D:/sampleText.txt")]
-        [TestCase("D:/TextSample.txt")]
-        [TestCase("D:/sampleText.doc")]
-        [TestCase("D:/sampleText.exe")]
-        [TestCase("D:/sampleText.xml")]
-        public void DoesSongReaderReturnValidArrayList(string songReaderText)
+        //Sprawdzić czy metoda songReader zwraca poprawną ArrayListę <--można testcase        
+        [Test]
+        public void DoesSongReaderReturnValidArrayList()
         {            
             Backend rickRoller = new Backend();
             rickRoller.login(getCredentials(0), getCredentials(1));
-            var arrayList = rickRoller.songReader(songReaderText);
-            Assert.AreEqual(arrayList.GetType(), arrayList.GetType());
-            rickRoller.rickRoll("Mateusz Kusiak", "D:/sampleText.exe");
+            var arrayList = rickRoller.songReader(sampleText);
+            ArrayList testArrayList = new ArrayList();            
+            Assert.AreEqual(testArrayList.GetType(), arrayList.GetType());            
             rickRoller.killBrowser();
         }        
+
+        //Sprawdzić czy metoda SongReader zwraca wyjątek przy niepoprawnej ścieżce do pliku 
+        [Test]
+        public void DoesSongReaderThrowExceptionInvalidPath()
+        {
+            Backend rickRoller = new Backend();
+            Assert.Throws<System.IO.FileNotFoundException>(() => rickRoller.songReader("C:/TextSample.txt"));
+        }
+        //Sprawdzić czy metoda sonngReader zwraca wyjątek gdy plik nie jest plikiem ".txt"  
+        [Test]
+        public void DoesSongReaderThrowExceptionInvalidExtenstion()
+        {
+            Backend rickRoller = new Backend();
+            Assert.Throws<System.ArgumentException>(() => rickRoller.songReader("C:/sampleText.exe"));
+        }
         //Sprawdzić przy użyciu selenium czy logując się testowo i przez metodę zwracana jest ta sama strona
 
         //sprawdzić czy metoda killbrowser zwraca wyjątek bez logowania;
+        [Test]
+        public void DoesKillBrowserThrowExceptionWithoutLogin()
+        {
+            Backend rickRoller = new Backend();
 
+            var ex = Assert.Throws<OpenQA.Selenium.NoSuchElementException>(() => rickRoller.killBrowser());
+        }
         //sprawdzić czy metoda killbrowser nie zwraca błędu przy logowaniu;
+        [Test]
+        public void DoesKillBrowserThrowExceptionWithLogin()
+        {
 
+            Backend rickRoller = new Backend();
+            rickRoller.login(getCredentials(0), getCredentials(1));
+            var ex = Assert.Throws<OpenQA.Selenium.NoSuchElementException>(() => rickRoller.killBrowser());
+        }
         //Michu wymyśl coś na mock'a bo ja tego nie ogarniam xd
-
+        
         //Dodać przechwytywanie błędów do statusu w formatce
     }
 }
