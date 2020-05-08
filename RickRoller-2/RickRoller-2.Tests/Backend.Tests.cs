@@ -15,8 +15,8 @@ namespace RickRoller_2.Tests
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // PLEASE SELECT PATH TO YOUR FACEBOOK LOGIN AND PASSWORD, IT MUST BE .txt FILE WHERE FIRST LINE IS YOUR LOGIN AND SECOND IS PASSWORD!
         // THIS IS TO AVOID SHARING YOUR CREDENTIALS ON GITHUB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        private string path = "C:/cred.txt";
-        private string sampleText = "C:/sampeText.txt";
+        private string path = "D:/cred.txt";
+        private string sampleText = "D:/sampleText.txt";
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         // Używaj tej funkcji do pobrania twojego loginu i hasła        
@@ -39,7 +39,7 @@ namespace RickRoller_2.Tests
 
             
         }
-
+        
         //Sprawdzić czy logowanie poprawnego użytkownika nie zwraca wyjątku
         [Test]
         public void DoesLoggingValidUserThrowsNoException()
@@ -104,14 +104,14 @@ namespace RickRoller_2.Tests
         //Sprawdzić czy metoda Rickroll nie zwraca wyjątku przy poprawnym logowaniu
 
         [Test]
-        public void DoesRickRollThrowsNoExceptionWhenValid()
+        public void DoesRickRollThrowsNoExceptionWhenValidLogin()
         {
             // Arrange
             Backend rickRoller = new Backend();
             //Assert
             rickRoller.login(getCredentials(0), getCredentials(1));
             //Należy wstawić imie i nazwisko prawdziwego znajomego!
-            Assert.DoesNotThrow(() => rickRoller.rickRoll("Michał Koczewski", sampleText));
+            Assert.DoesNotThrow(() => rickRoller.rickRoll("Anastazja Rozenska", sampleText));
             rickRoller.killBrowser();
         }
 
@@ -127,14 +127,33 @@ namespace RickRoller_2.Tests
             rickRoller.killBrowser();
         }
 
-        //Sprawdzić czy metoda Rickroll nie zwraca wyjątku przy podaniu "dobrego" znajomego
-
+        //Sprawdzić czy metoda rickRoll nie zwraca wyjątku przy podaniu "dobrego" znajomego
+        [Test]
+        public void DoesRickRollThrowsExceptionWhenValid()
+        {
+            //Arange
+            Backend rickRoller = new Backend();
+            rickRoller.login(getCredentials(0), getCredentials(1));
+            Assert.DoesNotThrow(() => rickRoller.rickRoll("Mateusz Kusiak", sampleText));
+            rickRoller.killBrowser();
+        }
         //Sprawdzić czy metoda songReader zwraca poprawną ArrayListę <--można testcase
-
         //Sprawdzić czy metoda SongReader zwraca wyjątek przy niepoprawnej ścieżce do pliku <--można testcase
-
         //Sprawdzić czy metoda sonngReader zwraca wyjątek gdy plik nie jest plikiem ".txt"  <--można testcase
-
+        [TestCase("D:/sampleText.txt")]
+        [TestCase("D:/TextSample.txt")]
+        [TestCase("D:/sampleText.doc")]
+        [TestCase("D:/sampleText.exe")]
+        [TestCase("D:/sampleText.xml")]
+        public void DoesSongReaderReturnValidArrayList(string songReaderText)
+        {            
+            Backend rickRoller = new Backend();
+            rickRoller.login(getCredentials(0), getCredentials(1));
+            var arrayList = rickRoller.songReader(songReaderText);
+            Assert.AreEqual(arrayList.GetType(), arrayList.GetType());
+            rickRoller.rickRoll("Mateusz Kusiak", "D:/sampleText.exe");
+            rickRoller.killBrowser();
+        }        
         //Sprawdzić przy użyciu selenium czy logując się testowo i przez metodę zwracana jest ta sama strona
 
         //sprawdzić czy metoda killbrowser zwraca wyjątek bez logowania;

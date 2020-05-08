@@ -95,7 +95,7 @@ namespace RickRoller_2
         }
 
         public ArrayList songReader(string path)
-        {
+        {            
             ArrayList list = new ArrayList();
             const Int32 BufferSize = 128;
             using (var fileStream = File.OpenRead(path))
@@ -107,7 +107,7 @@ namespace RickRoller_2
                     list.Add(line);
                 }
             }
-            return list;
+            return list;           
         }
 
         public void killBrowser()
