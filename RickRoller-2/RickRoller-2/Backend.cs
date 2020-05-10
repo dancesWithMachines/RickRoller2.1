@@ -14,7 +14,7 @@ namespace RickRoller_2
 {
     public class Backend
     {
-        private static string url = "https://www.facebook.com/";
+        private static readonly string url = "https://www.facebook.com/";
         static private IWebDriver driver;
         public static List<string> knownTypes;        
         public Backend()

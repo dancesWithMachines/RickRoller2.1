@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
 using RickRoller_2;
 
@@ -18,6 +19,7 @@ namespace RickRoller_2.Tests
         // THIS IS TO AVOID SHARING YOUR CREDENTIALS ON GITHUB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         private string path = "D:/cred.txt";
         private string sampleText = "D:/sampleText.txt";
+        public Backend backend = new Backend();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         // Używaj tej funkcji do pobrania twojego loginu i hasła        
@@ -41,6 +43,18 @@ namespace RickRoller_2.Tests
             
         }
         
+        [OneTimeSetUp]
+        public void Login()
+        {
+            backend.login(getCredentials(0), getCredentials(1));
+        }
+
+        [OneTimeTearDown]
+        public void Close()
+        {
+            backend.killBrowser();
+        }
+
         //Sprawdzić czy logowanie poprawnego użytkownika nie zwraca wyjątku
         [Test]
         public void DoesLoggingValidUserThrowsNoException()
@@ -100,21 +114,7 @@ namespace RickRoller_2.Tests
             Assert.That(ex.GetType().Name, Is.EqualTo("NoSuchElementException"));
             rickRoller.killBrowser();
 
-        }
-
-        //Sprawdzić czy metoda Rickroll nie zwraca wyjątku przy poprawnym logowaniu
-
-        [Test]
-        public void DoesRickRollThrowsNoExceptionWhenValidLogin()
-        {
-            // Arrange
-            Backend rickRoller = new Backend();
-            //Assert
-            rickRoller.login(getCredentials(0), getCredentials(1));
-            //Należy wstawić imie i nazwisko prawdziwego znajomego!
-            Assert.DoesNotThrow(() => rickRoller.rickRoll("Anastazja Rozenska", sampleText));
-            rickRoller.killBrowser();
-        }
+        }        
 
         //Sprawdzić czy metoda Rickrol zwraca wyjątek przy podaniu "złego" znajomego
         [Test]
@@ -128,63 +128,83 @@ namespace RickRoller_2.Tests
             rickRoller.killBrowser();
         }
 
+        //Sprawdzić czy metoda Rickroll nie zwraca wyjątku przy poprawnym logowaniu
+        [Test]
+        public void DoesRickRollThrowsNoExceptionWhenValidLogin()
+        {
+            // Arrange
+            Backend rickRoller = new Backend();
+            //Assert
+            rickRoller.login(getCredentials(0), getCredentials(1));
+            //Należy wstawić imie i nazwisko prawdziwego znajomego!
+            Assert.DoesNotThrow(() => rickRoller.rickRoll("Roxanne Replewska", sampleText));
+            rickRoller.killBrowser();
+        }
+
         //Sprawdzić czy metoda rickRoll nie zwraca wyjątku przy podaniu "dobrego" znajomego
         [Test]
         public void DoesRickRollThrowsExceptionWhenValid()
-        {
-            //Arange
-            Backend rickRoller = new Backend();
-            rickRoller.login(getCredentials(0), getCredentials(1));
-            Assert.DoesNotThrow(() => rickRoller.rickRoll("Mateusz Kusiak", sampleText));
-            rickRoller.killBrowser();
+        {                                    
+            Assert.DoesNotThrow(() => backend.rickRoll("Roxanne Replewska", sampleText));            
         }
-        //Sprawdzić czy metoda songReader zwraca poprawną ArrayListę <--można testcase        
+        //Sprawdzić czy metoda songReader zwraca poprawną ArrayListę        
         [Test]
         public void DoesSongReaderReturnValidArrayList()
-        {            
-            Backend rickRoller = new Backend();
-            rickRoller.login(getCredentials(0), getCredentials(1));
-            var arrayList = rickRoller.songReader(sampleText);
+        {
+            Mock<ArrayList> mock = new Mock<ArrayList>();
+            ArrayList song = new ArrayList();
+            mock.Setup(m => m.Add(song));
+
+            const Int32 BufferSize = 128;
+            using (var fileStream = File.OpenRead(path))
+            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+            {
+                String line;
+                while ((line = streamReader.ReadLine()) != null)
+                {
+                    song.Add(line);
+                }
+            }
+
+
+            var arrayList = backend.songReader(sampleText);
             ArrayList testArrayList = new ArrayList();            
-            Assert.AreEqual(testArrayList.GetType(), arrayList.GetType());            
-            rickRoller.killBrowser();
+            Assert.AreEqual(song.Count, arrayList.Count);                        
         }        
 
         //Sprawdzić czy metoda SongReader zwraca wyjątek przy niepoprawnej ścieżce do pliku 
         [Test]
         public void DoesSongReaderThrowExceptionInvalidPath()
-        {
-            Backend rickRoller = new Backend();
-            Assert.Throws<System.IO.FileNotFoundException>(() => rickRoller.songReader("C:/TextSample.txt"));
+        {            
+            Assert.Throws<System.IO.FileNotFoundException>(() => backend.songReader("C:/TextSample.txt"));
         }
         //Sprawdzić czy metoda sonngReader zwraca wyjątek gdy plik nie jest plikiem ".txt"  
         [Test]
         public void DoesSongReaderThrowExceptionInvalidExtenstion()
-        {
-            Backend rickRoller = new Backend();
-            Assert.Throws<System.ArgumentException>(() => rickRoller.songReader("C:/sampleText.exe"));
+        {            
+            Assert.Throws<System.ArgumentException>(() => backend.songReader("C:/sampleText.exe"));
         }
         //Sprawdzić przy użyciu selenium czy logując się testowo i przez metodę zwracana jest ta sama strona
-
+        [Test]
+        public void LoginTest()
+        {
+            
+        }
         //sprawdzić czy metoda killbrowser zwraca wyjątek bez logowania;
         [Test]
         public void DoesKillBrowserThrowExceptionWithoutLogin()
-        {
-            Backend rickRoller = new Backend();
-
-            var ex = Assert.Throws<OpenQA.Selenium.NoSuchElementException>(() => rickRoller.killBrowser());
+        {                        
+            var ex = Assert.Throws<OpenQA.Selenium.NoSuchElementException>(() => backend.killBrowser());
         }
         //sprawdzić czy metoda killbrowser nie zwraca błędu przy logowaniu;
         [Test]
         public void DoesKillBrowserThrowExceptionWithLogin()
-        {
-
-            Backend rickRoller = new Backend();
-            rickRoller.login(getCredentials(0), getCredentials(1));
-            var ex = Assert.Throws<OpenQA.Selenium.NoSuchElementException>(() => rickRoller.killBrowser());
+        {                        
+            var ex = Assert.Throws<OpenQA.Selenium.NoSuchElementException>(() => backend.killBrowser());
         }
         //Michu wymyśl coś na mock'a bo ja tego nie ogarniam xd
         
         //Dodać przechwytywanie błędów do statusu w formatce
     }
+
 }
