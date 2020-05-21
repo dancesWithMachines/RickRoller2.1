@@ -55,11 +55,3 @@ X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\obj\Debug\RickRoller-2.Tes
 X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\obj\Debug\RickRoller-2.Tests.csproj.CopyComplete
 X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\obj\Debug\RickRoller-2.Tests.dll
 X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\obj\Debug\RickRoller-2.Tests.pdb
-X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\bin\Debug\Castle.Core.dll
-X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\bin\Debug\Moq.dll
-X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
-X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\bin\Debug\System.Threading.Tasks.Extensions.dll
-X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\bin\Debug\Castle.Core.xml
-X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\bin\Debug\Moq.xml
-X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
-X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2.Tests\bin\Debug\System.Threading.Tasks.Extensions.xml
