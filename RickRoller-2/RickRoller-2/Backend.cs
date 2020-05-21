@@ -14,17 +14,19 @@ namespace RickRoller_2
 {
     public class Backend
     {
-        private static string url = "https://www.facebook.com/";
+        private static readonly string url = "https://www.facebook.com/";
         static private IWebDriver driver;
+        public static List<string> knownTypes;        
         public Backend()
         {
             ChromeOptions options = new ChromeOptions();
             options.AddUserProfilePreference("profile.default_content_setting_values.notifications", 2);
             var chromeDriverService = ChromeDriverService.CreateDefaultService();
             chromeDriverService.HideCommandPromptWindow = true;
-            driver = new ChromeDriver(chromeDriverService ,options);
+            driver = new ChromeDriver(chromeDriverService ,options);                        
         }
-        public string[] getFriendsList()
+
+    public string[] getFriendsList()
         {
             IWebElement profile = driver.FindElement(By.XPath("//*[@title=\"Profil\"]"));
             driver.Navigate().GoToUrl(profile.GetAttribute("href"));
@@ -83,7 +85,8 @@ namespace RickRoller_2
         }
 
         public void login(string login, string password)
-        {
+        {       
+
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl(url);
             IWebElement loginField = driver.FindElement(By.XPath("//*[@id=\"email\"]"));
@@ -96,18 +99,26 @@ namespace RickRoller_2
 
         public ArrayList songReader(string path)
         {
-            ArrayList list = new ArrayList();
-            const Int32 BufferSize = 128;
-            using (var fileStream = File.OpenRead(path))
-            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+            FileInfo fileInfo = new FileInfo(path);
+            string extension = fileInfo.Extension;
+
+            if (extension.Equals(".txt") || extension.Equals(".doc"))
             {
-                String line;
-                while ((line = streamReader.ReadLine()) != null)
+                ArrayList list = new ArrayList();
+                const Int32 BufferSize = 128;
+                using (var fileStream = File.OpenRead(path))
+                using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
                 {
-                    list.Add(line);
+                    String line;
+                    while ((line = streamReader.ReadLine()) != null)
+                    {
+                        list.Add(line);
+                    }
                 }
+                return list;
             }
-            return list;
+            else
+                throw new System.ArgumentException("Wrong file extension");
         }
 
         public void killBrowser()

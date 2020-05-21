@@ -24,3 +24,16 @@ C:\Users\Timax\Documents\GitHub\RickRoller\RickRoller-2\RickRoller-2\obj\Debug\R
 C:\Users\Timax\Documents\GitHub\RickRoller\RickRoller-2\RickRoller-2\obj\Debug\RickRoller-2.csproj.CopyComplete
 C:\Users\Timax\Documents\GitHub\RickRoller\RickRoller-2\RickRoller-2\obj\Debug\RickRoller-2.exe
 C:\Users\Timax\Documents\GitHub\RickRoller\RickRoller-2\RickRoller-2\obj\Debug\RickRoller-2.pdb
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\bin\Debug\RickRoller-2.exe.config
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\bin\Debug\RickRoller-2.exe
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\bin\Debug\RickRoller-2.pdb
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\bin\Debug\WebDriver.dll
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\bin\Debug\WebDriver.xml
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\obj\Debug\RickRoller-2.csprojAssemblyReference.cache
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\obj\Debug\RickRoller_2.Form1.resources
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\obj\Debug\RickRoller_2.Properties.Resources.resources
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\obj\Debug\RickRoller-2.csproj.GenerateResource.cache
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\obj\Debug\RickRoller-2.csproj.CoreCompileInputs.cache
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\obj\Debug\RickRoller-2.csproj.CopyComplete
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\obj\Debug\RickRoller-2.exe
+X:\rick\RickRoller2.1\RickRoller-2\RickRoller-2\obj\Debug\RickRoller-2.pdb
