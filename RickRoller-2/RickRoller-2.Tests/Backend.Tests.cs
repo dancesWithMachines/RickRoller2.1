@@ -16,8 +16,8 @@ namespace RickRoller_2.Tests
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // PLEASE SELECT PATH TO YOUR FACEBOOK LOGIN AND PASSWORD, IT MUST BE .txt FILE WHERE FIRST LINE IS YOUR LOGIN AND SECOND IS PASSWORD!
         // THIS IS TO AVOID SHARING YOUR CREDENTIALS ON GITHUB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        private string path = "D:/cred.txt";
-        private string sampleText = "D:/sampleText.txt";
+        private string path = "C:/cred.txt";
+        private string sampleText = "C:/sampleText.txt";
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         // Używaj tej funkcji do pobrania twojego loginu i hasła        
@@ -112,7 +112,7 @@ namespace RickRoller_2.Tests
             //Assert
             rickRoller.login(getCredentials(0), getCredentials(1));
             //Należy wstawić imie i nazwisko prawdziwego znajomego!
-            Assert.DoesNotThrow(() => rickRoller.rickRoll("Anastazja Rozenska", sampleText));
+            Assert.DoesNotThrow(() => rickRoller.rickRoll("Roxanne Replewska", sampleText));
             rickRoller.killBrowser();
         }
 
@@ -135,7 +135,7 @@ namespace RickRoller_2.Tests
             //Arange
             Backend rickRoller = new Backend();
             rickRoller.login(getCredentials(0), getCredentials(1));
-            Assert.DoesNotThrow(() => rickRoller.rickRoll("Mateusz Kusiak", sampleText));
+            Assert.DoesNotThrow(() => rickRoller.rickRoll("Roxanne Replewska", sampleText));
             rickRoller.killBrowser();
         }
         //Sprawdzić czy metoda songReader zwraca poprawną ArrayListę <--można testcase        
